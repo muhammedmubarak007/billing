@@ -526,7 +526,7 @@ function generateInvoiceHTML() {
     });
 
     return `
-        <div style="max-width: 800px; margin: 0 auto; background: white; min-height: 1050px; display: flex; flex-direction: column;">
+        <div style="max-width: 850px; margin: 0 auto; background: white; min-height: 1050px; display: flex; flex-direction: column;">
             <!-- Main Content -->
             <div style="flex: 1;">
                 <!-- Header -->
