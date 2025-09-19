@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     generateInvoiceNumber();
     addItem();
     setupEventListeners();
+    updateAddButtonVisibility();
 });
 
 // Setup event listeners
@@ -49,6 +50,13 @@ function generateInvoiceNumber() {
 
 // Add new item row
 function addItem() {
+    // Check if we already have 10 items
+    const currentItemCount = Object.keys(invoiceData.items).length;
+    if (currentItemCount >= 10) {
+        alert('Maximum 10 items allowed per invoice.');
+        return;
+    }
+
     const tbody = document.getElementById('items-body');
     const row = document.createElement('tr');
     row.id = `item-${itemCounter}`;
@@ -66,6 +74,9 @@ function addItem() {
     invoiceData.items[itemCounter] = { name: '', unit: '', quantity: 1, price: 0, total: 0 };
     itemCounter++;
     updateSummary();
+
+    // Hide add button if we now have 10 items
+    updateAddButtonVisibility();
 }
 
 // Update item data and calculations
@@ -91,6 +102,23 @@ function removeItem(itemId) {
         row.remove();
         delete invoiceData.items[itemId];
         updateSummary();
+
+        // Show add button since we removed an item
+        updateAddButtonVisibility();
+    }
+}
+
+// Update Add Item button visibility based on item count
+function updateAddButtonVisibility() {
+    const addButton = document.querySelector('button[onclick="addItem()"]');
+    const currentItemCount = Object.keys(invoiceData.items).length;
+
+    if (addButton) {
+        if (currentItemCount >= 10) {
+            addButton.style.display = 'none';
+        } else {
+            addButton.style.display = 'inline-block';
+        }
     }
 }
 
@@ -203,6 +231,7 @@ function clearInvoice() {
         generateInvoiceNumber();
         addItem();
         updateSummary();
+        updateAddButtonVisibility();
     }
 }
 
@@ -497,7 +526,7 @@ function generateInvoiceHTML() {
     });
 
     return `
-        <div style="max-width: 800px; margin: 0 auto; background: white;">
+        <div style="max-width: 800px; margin: 0 auto; background: white; min-height: 1050px; position: relative; padding-bottom: 80px;">
             <!-- Header -->
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 3px solid #5b675b;">
                 <div style="display: flex; align-items: center; gap: 15px;">
@@ -585,7 +614,7 @@ function generateInvoiceHTML() {
             ` : ''}
             
             <!-- Footer -->
-            <div style="background: #5b675b; color: white; padding: 20px; margin-top: 30px;">
+            <div style="background: #5b675b; color: white; padding: 20px; position: absolute; bottom: 0; left: 0; right: 0; width: 100%;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <span style="font-size: 16px;">📞</span>
