@@ -55,7 +55,7 @@ function addItem() {
 
     row.innerHTML = `
         <td><input type="text" class="item-name" placeholder="Item name" onchange="updateItem(${itemCounter})"></td>
-        <td><input type="text" class="item-description" placeholder="Description" onchange="updateItem(${itemCounter})"></td>
+        <td><input type="text" class="item-unit" placeholder="Unit" onchange="updateItem(${itemCounter})"></td>
         <td><input type="number" class="item-quantity" value="1" min="0" step="0.01" onchange="updateItem(${itemCounter})"></td>
         <td><input type="number" class="item-price" value="0" min="0" step="0.01" onchange="updateItem(${itemCounter})"></td>
         <td class="total-cell item-total">₹0.00</td>
@@ -63,7 +63,7 @@ function addItem() {
     `;
 
     tbody.appendChild(row);
-    invoiceData.items[itemCounter] = { name: '', description: '', quantity: 1, price: 0, total: 0 };
+    invoiceData.items[itemCounter] = { name: '', unit: '', quantity: 1, price: 0, total: 0 };
     itemCounter++;
     updateSummary();
 }
@@ -74,13 +74,13 @@ function updateItem(itemId) {
     if (!row) return;
 
     const name = row.querySelector('.item-name').value;
-    const description = row.querySelector('.item-description').value;
+    const unit = row.querySelector('.item-unit').value;
     const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
     const price = parseFloat(row.querySelector('.item-price').value) || 0;
     const total = quantity * price;
 
     row.querySelector('.item-total').textContent = `₹${total.toFixed(2)}`;
-    invoiceData.items[itemId] = { name, description, quantity, price, total };
+    invoiceData.items[itemId] = { name, unit, quantity, price, total };
     updateSummary();
 }
 
@@ -230,7 +230,7 @@ function createPreviewHTML() {
             itemsHTML += `
                 <tr>
                     <td>${item.name}</td>
-                    <td>${item.description || '-'}</td>
+                    <td>${item.unit || '-'}</td>
                     <td>${item.quantity}</td>
                     <td>₹${item.price.toFixed(2)}</td>
                     <td>₹${item.total.toFixed(2)}</td>
@@ -280,7 +280,7 @@ function createPreviewHTML() {
                     <thead>
                         <tr>
                             <th>Item Name</th>
-                            <th>Description</th>
+                            <th>Unit</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
                             <th>Total</th>
@@ -487,7 +487,7 @@ function generateInvoiceHTML() {
             itemsHTML += `
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.description || '-'}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.unit || '-'}</td>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">${item.quantity}</td>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">₹${item.price.toFixed(2)}</td>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">₹${item.total.toFixed(2)}</td>
