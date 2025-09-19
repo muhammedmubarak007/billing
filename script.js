@@ -578,6 +578,14 @@ function generateInvoiceHTML() {
                 </table>
             </div>
             
+            <!-- Notes -->
+            ${notes ? `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #5b675b; margin-bottom: 15px; font-size: 18px;">Notes:</h3>
+                    <p style="font-size: 14px; line-height: 1.5;">${notes}</p>
+                </div>
+            ` : ''}
+
             <!-- Summary -->
             <div style="margin-bottom: 30px;">
                 <div style="float: right; width: 300px;">
@@ -606,30 +614,22 @@ function generateInvoiceHTML() {
                     <p style="margin: 0;"><strong>Amount in Words:</strong> ${convertToWords(Math.abs(invoiceData.totals.balance))}</p>
                 </div>
             </div>
-            
-            <!-- Notes -->
-            ${notes ? `
-                <div style="margin-bottom: 30px;">
-                    <h3 style="color: #5b675b; margin-bottom: 15px; font-size: 18px;">Notes:</h3>
-                    <p style="font-size: 14px; line-height: 1.5;">${notes}</p>
-                </div>
-            ` : ''}
             </div>
 
             <!-- Footer -->
             <div style="background: #5b675b; color: white; padding: 20px; margin-top: auto;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 16px;">📞</span>
+                        <i class="fas fa-phone" style="font-size: 16px;"></i>
                         <span style="font-size: 14px;">+91 75580 10767</span>
                         <span style="font-size: 14px;">+91 73065 96979</span>
                     </div>
                     <div style="width: 1px; height: 20px; background: white;"></div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 16px;">📍</span>
+                        <i class="fas fa-map-marker-alt" style="font-size: 16px;"></i>
                         <div>
                             <span style="font-size: 14px; display: block;">Mannur Valavu, Calicut , Kerala, India - 673328</span>
-                           
+
                         </div>
                     </div>
                 </div>
