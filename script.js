@@ -617,7 +617,7 @@ function generateInvoiceHTML() {
             </div>
 
             <!-- Footer -->
-            <div style="background: #5b675b; color: white; padding: 0px; margin-top: auto;">
+            <div style="background: #5b675b; color: white; padding: 20px; margin-top: auto;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-phone" style="font-size: 16px;"></i>
