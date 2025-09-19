@@ -540,7 +540,7 @@ function generateInvoiceHTML() {
                     <thead>
                         <tr style="background: #5b675b; color: white;">
                             <th style="padding: 12px; text-align: left; font-size: 14px;">Item Name</th>
-                            <th style="padding: 12px; text-align: left; font-size: 14px;">Description</th>
+                            <th style="padding: 12px; text-align: left; font-size: 14px;">Unit</th>
                             <th style="padding: 12px; text-align: center; font-size: 14px;">Quantity</th>
                             <th style="padding: 12px; text-align: right; font-size: 14px;">Unit Price</th>
                             <th style="padding: 12px; text-align: right; font-size: 14px;">Total</th>
