@@ -628,8 +628,8 @@ function generateInvoiceHTML() {
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-size: 16px;">📍</span>
                         <div>
-                            <span style="font-size: 14px; display: block;">Mannur Valavu, Calicut</span>
-                            <span style="font-size: 14px; display: block;">Kerala, India - 673328</span>
+                            <span style="font-size: 14px; display: block;">Mannur Valavu, Calicut , Kerala, India - 673328</span>
+                           
                         </div>
                     </div>
                 </div>
