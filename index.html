@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Steel Fabrication - Billing System</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header class="letterhead">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo">
+            <img src="assets/logo.jpeg" alt="Smart Steel Logo" class="logo-s">
+          </div>
+          <div class="company-name">
+            <h1>Smart Steel</h1>
+            <h2>Fabrication</h2>
+          </div>
+        </div>
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> smartsteel.f@gmail.com</p>
+        </div>
+      </div>
+      <div class="header-line"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="invoice-container">
+      <div class="invoice-header">
+        <h2>INVOICE</h2>
+        <div class="invoice-details">
+          <div class="invoice-number">
+            <label for="invoice-num">Invoice #:</label>
+            <input type="text" id="invoice-num" placeholder="INV-001">
+          </div>
+          <div class="invoice-date">
+            <label for="invoice-date">Date:</label>
+            <input type="date" id="invoice-date">
+          </div>
+        </div>
+      </div>
+
+      <!-- Client Information -->
+      <div class="client-section">
+        <h3>Bill To:</h3>
+        <div class="client-info">
+          <input type="text" id="client-name" placeholder="Client Name" required>
+          <input type="text" id="client-address" placeholder="Address">
+          <input type="text" id="client-phone" placeholder="Phone Number">
+          <input type="email" id="client-email" placeholder="Email">
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <div class="items-section">
+        <h3>Items</h3>
+        <div class="table-container">
+          <table id="items-table">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="items-body">
+              <!-- Items will be added dynamically -->
+            </tbody>
+          </table>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addItem()">
+          <i class="fas fa-plus"></i> Add Item
+        </button>
+      </div>
+
+      <!-- Summary Section -->
+      <div class="summary-section">
+        <div class="summary-details">
+          <div class="summary-row">
+            <label for="discount-percent">Discount %:</label>
+            <input type="number" id="discount-percent" value="0" min="0" max="100" oninput="updateSummary()">
+          </div>
+          <div class="summary-row">
+            <label for="discount-amount">Discount Amount:</label>
+            <input type="number" id="discount-amount" value="0" min="0" oninput="updateSummary()">
+          </div>
+          <div class="summary-row">
+            <label for="advance-amount">Advance Paid:</label>
+            <input type="number" id="advance-amount" value="0" min="0" oninput="updateSummary()">
+          </div>
+        </div>
+
+        <div class="totals">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="subtotal">₹0.00</span>
+          </div>
+          <div class="total-row discount-row">
+            <span>Discount:</span>
+            <span id="discount-total">₹0.00</span>
+          </div>
+          <div class="total-row grand-total">
+            <span>Grand Total:</span>
+            <span id="grand-total">₹0.00</span>
+          </div>
+          <div class="total-row">
+            <span>Advance Paid:</span>
+            <span id="advance-total">₹0.00</span>
+          </div>
+          <div class="total-row balance-row">
+            <span>Balance Due:</span>
+            <span id="balance-due">₹0.00</span>
+          </div>
+        </div>
+
+        <div class="amount-in-words">
+          <p><strong>Amount in Words:</strong> <span id="amount-words">Zero Rupees Only</span></p>
+        </div>
+      </div>
+
+      <!-- Notes Section -->
+      <div class="notes-section">
+        <h3>Notes</h3>
+        <textarea id="notes" placeholder="Additional notes or terms and conditions..."></textarea>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button type="button" class="btn btn-secondary" onclick="clearInvoice()">
+          <i class="fas fa-trash"></i> Clear
+        </button>
+        <button type="button" class="btn btn-success" onclick="previewInvoice()">
+          <i class="fas fa-eye"></i> Preview
+        </button>
+        <button type="button" class="btn btn-primary" onclick="downloadPDF()">
+          <i class="fas fa-download"></i> Download PDF
+        </button>
+      </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="letterhead-footer">
+      <div class="footer-content">
+        <div class="contact-details">
+          <div class="phone-numbers">
+            <i class="fas fa-phone"></i>
+            <span>+91 75580 10767</span>
+            <span>+91 73065 96979</span>
+          </div>
+        </div>
+        <div class="separator"></div>
+        <div class="address">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <span>Mannur Valavu, Calicut</span>
+            <span>Kerala, India - 673328</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Preview Modal -->
+  <div id="preview-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Invoice Preview</h3>
+        <span class="close" onclick="closePreview()">&times;</span>
+      </div>
+      <div class="modal-body" id="preview-content">
+        <!-- Preview content will be inserted here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closePreview()">Close</button>
+        <button class="btn btn-primary" onclick="downloadPDF()">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
