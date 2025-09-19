@@ -526,7 +526,7 @@ function generateInvoiceHTML() {
     });
 
     return `
-        <div style="max-width: 850px; margin: 0 auto; background: white; min-height: 1050px; display: flex; flex-direction: column;">
+        <div style="max-width: 800px; margin: 0 auto; background: white; min-height: 1050px; display: flex; flex-direction: column;">
             <!-- Main Content -->
             <div style="flex: 1;">
                 <!-- Header -->
@@ -617,7 +617,7 @@ function generateInvoiceHTML() {
             </div>
 
             <!-- Footer -->
-            <div style="background: #5b675b; color: white; padding: 20px; margin-top: auto;">
+            <div style="background: #5b675b; color: white; padding: 0px; margin-top: auto;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-phone" style="font-size: 16px;"></i>
