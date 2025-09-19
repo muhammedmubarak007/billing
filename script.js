@@ -526,9 +526,11 @@ function generateInvoiceHTML() {
     });
 
     return `
-        <div style="max-width: 800px; margin: 0 auto; background: white; min-height: 1050px; position: relative; padding-bottom: 80px;">
-            <!-- Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 3px solid #5b675b;">
+        <div style="max-width: 800px; margin: 0 auto; background: white; min-height: 1050px; display: flex; flex-direction: column;">
+            <!-- Main Content -->
+            <div style="flex: 1;">
+                <!-- Header -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 3px solid #5b675b;">
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div style="display: flex; align-items: center; justify-content: center; position: relative;">
                         <img src="assets/logo.jpeg" alt="Smart Steel Logo" style="height: 50px; width: auto; object-fit: contain;">
@@ -612,9 +614,10 @@ function generateInvoiceHTML() {
                     <p style="font-size: 14px; line-height: 1.5;">${notes}</p>
                 </div>
             ` : ''}
-            
+            </div>
+
             <!-- Footer -->
-            <div style="background: #5b675b; color: white; padding: 20px; position: absolute; bottom: 0; left: 0; right: 0; width: 100%;">
+            <div style="background: #5b675b; color: white; padding: 20px; margin-top: auto;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <span style="font-size: 16px;">📞</span>
