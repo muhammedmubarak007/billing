@@ -524,8 +524,8 @@ function generateInvoiceHTML() {
             </div>
             
             <!-- Client Info -->
-            <div style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-left: 4px solid #5b675b;">
-                <h3 style="color: #5b675b; margin-bottom: 15px; font-size: 18px;">Bill To:</h3>
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #5b675b; margin-bottom: 10px; font-size: 14px;">Bill To:</h3>
                 <div>
                     <p style="margin: 5px 0; font-size: 14px;"><strong>${clientName || 'Client Name'}</strong></p>
                     ${clientAddress ? `<p style="margin: 5px 0; font-size: 14px;">${clientAddress}</p>` : ''}
@@ -554,7 +554,7 @@ function generateInvoiceHTML() {
             
             <!-- Summary -->
             <div style="margin-bottom: 30px;">
-                <div style="float: right; width: 300px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                <div style="float: right; width: 300px;">
                     <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef; font-size: 14px;">
                         <span>Subtotal:</span>
                         <span>₹${invoiceData.totals.subtotal.toFixed(2)}</span>
@@ -571,12 +571,12 @@ function generateInvoiceHTML() {
                         <span>Advance Paid:</span>
                         <span>₹${invoiceData.totals.advance.toFixed(2)}</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; padding: 10px; background: #f8d7da; border-radius: 4px; margin-top: 10px; font-size: 16px; font-weight: bold; color: #dc3545;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 16px; font-weight: bold; color: #dc3545;">
                         <span>Balance Due:</span>
                         <span>₹${invoiceData.totals.balance.toFixed(2)}</span>
                     </div>
                 </div>
-                <div style="clear: both; margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 6px; font-size: 14px;">
+                <div style="clear: both; margin-top: 20px; font-size: 14px;">
                     <p style="margin: 0;"><strong>Amount in Words:</strong> ${convertToWords(Math.abs(invoiceData.totals.balance))}</p>
                 </div>
             </div>
