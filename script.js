@@ -486,11 +486,11 @@ function generateInvoiceHTML() {
         if (item && item.name) {
             itemsHTML += `
                 <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.unit || '-'}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">${item.quantity}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">₹${item.price.toFixed(2)}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">₹${item.total.toFixed(2)}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd; font-size: 12px;">${item.name}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd; font-size: 12px;">${item.unit || '-'}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center; font-size: 12px;">${item.quantity}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-size: 12px;">₹${item.price.toFixed(2)}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-size: 12px;">₹${item.total.toFixed(2)}</td>
                 </tr>
             `;
         }
@@ -518,8 +518,8 @@ function generateInvoiceHTML() {
             <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0; padding-bottom: 15px; border-bottom: 2px solid #e9ecef;">
                 <h2 style="color: #5b675b; font-size: 24px; margin: 0;">INVOICE</h2>
                 <div>
-                    <p style="margin: 5px 0; font-size: 14px;"><strong>Invoice #:</strong> ${invoiceNum}</p>
-                    <p style="margin: 5px 0; font-size: 14px;"><strong>Date:</strong> ${new Date(invoiceDate).toLocaleDateString('en-IN')}</p>
+                    <p style="margin: 5px 0; font-size: 12px;"><strong>Invoice #:</strong> ${invoiceNum}</p>
+                    <p style="margin: 5px 0; font-size: 12px;"><strong>Date:</strong> ${new Date(invoiceDate).toLocaleDateString('en-IN')}</p>
                 </div>
             </div>
             
@@ -539,11 +539,11 @@ function generateInvoiceHTML() {
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                     <thead>
                         <tr style="background: #5b675b; color: white;">
-                            <th style="padding: 12px; text-align: left; font-size: 14px;">Item Name</th>
-                            <th style="padding: 12px; text-align: left; font-size: 14px;">Unit</th>
-                            <th style="padding: 12px; text-align: center; font-size: 14px;">Quantity</th>
-                            <th style="padding: 12px; text-align: right; font-size: 14px;">Unit Price</th>
-                            <th style="padding: 12px; text-align: right; font-size: 14px;">Total</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Item Name</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Unit</th>
+                            <th style="padding: 12px; text-align: center; font-size: 12px;">Quantity</th>
+                            <th style="padding: 12px; text-align: right; font-size: 12px;">Unit Price</th>
+                            <th style="padding: 12px; text-align: right; font-size: 12px;">Total</th>
                         </tr>
                     </thead>
                     <tbody>
