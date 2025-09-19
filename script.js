@@ -516,7 +516,7 @@ function generateInvoiceHTML() {
             
             <!-- Invoice Details -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0; padding-bottom: 15px; border-bottom: 2px solid #e9ecef;">
-                <h2 style="color: #5b675b; font-size: 28px; margin: 0;">INVOICE</h2>
+                <h2 style="color: #5b675b; font-size: 24px; margin: 0;">INVOICE</h2>
                 <div>
                     <p style="margin: 5px 0; font-size: 14px;"><strong>Invoice #:</strong> ${invoiceNum}</p>
                     <p style="margin: 5px 0; font-size: 14px;"><strong>Date:</strong> ${new Date(invoiceDate).toLocaleDateString('en-IN')}</p>
@@ -634,7 +634,7 @@ function generateTextPDF(tempContainer, downloadBtn, originalText) {
         doc.text('smartsteel.f@gmail.com', 150, 20);
 
         // Invoice title
-        doc.setFontSize(24);
+        doc.setFontSize(20);
         doc.text('INVOICE', 20, 40);
 
         // Invoice details
