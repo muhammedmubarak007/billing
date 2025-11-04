@@ -17,7 +17,6 @@ let invoiceData = {
 document.addEventListener('DOMContentLoaded', function () {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('invoice-date').value = today;
-    generateInvoiceNumber();
     addItem();
     setupEventListeners();
     updateAddButtonVisibility();
@@ -25,27 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Setup event listeners
 function setupEventListeners() {
-    document.getElementById('invoice-num').addEventListener('blur', function () {
-        if (!this.value) {
-            generateInvoiceNumber();
-        }
-    });
-
     const inputs = document.querySelectorAll('#discount-percent, #discount-amount, #advance-amount');
     inputs.forEach(input => {
         input.addEventListener('input', updateSummary);
     });
-}
-
-// Generate invoice number
-function generateInvoiceNumber() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-    const invoiceNum = `INV-${year}${month}${day}-${random}`;
-    document.getElementById('invoice-num').value = invoiceNum;
 }
 
 // Add new item row
@@ -187,34 +169,50 @@ function convertToWords(num) {
 
     if (num < 0) return "Negative " + convertToWords(-num);
 
+    // Split into rupees and paise
+    const rupees = Math.floor(num);
+    const paise = Math.round((num - rupees) * 100);
+
     let result = "";
-    if (num >= 10000000) {
-        result += convertHundreds(Math.floor(num / 10000000)) + "Crore ";
-        num %= 10000000;
+
+    // Convert rupees part
+    let rupeesPart = rupees;
+    if (rupeesPart >= 10000000) {
+        result += convertHundreds(Math.floor(rupeesPart / 10000000)) + "Crore ";
+        rupeesPart %= 10000000;
     }
-    if (num >= 100000) {
-        result += convertHundreds(Math.floor(num / 100000)) + "Lakh ";
-        num %= 100000;
+    if (rupeesPart >= 100000) {
+        result += convertHundreds(Math.floor(rupeesPart / 100000)) + "Lakh ";
+        rupeesPart %= 100000;
     }
-    if (num >= 1000) {
-        result += convertHundreds(Math.floor(num / 1000)) + "Thousand ";
-        num %= 1000;
+    if (rupeesPart >= 1000) {
+        result += convertHundreds(Math.floor(rupeesPart / 1000)) + "Thousand ";
+        rupeesPart %= 1000;
     }
-    if (num >= 100) {
-        result += convertHundreds(Math.floor(num / 100)) + "Hundred ";
-        num %= 100;
+    if (rupeesPart >= 100) {
+        result += convertHundreds(Math.floor(rupeesPart / 100)) + "Hundred ";
+        rupeesPart %= 100;
     }
-    if (num > 0) {
-        result += convertHundreds(num);
+    if (rupeesPart > 0) {
+        result += convertHundreds(rupeesPart);
     }
 
-    return result.trim() + " Rupees Only";
+    // Handle paise part
+    if (paise > 0) {
+        if (result) {
+            result = result.trim() + " Rupees ";
+        }
+        result += "and " + convertHundreds(paise).trim() + " Paise";
+    } else {
+        result = result.trim() + " Rupees";
+    }
+
+    return result + " Only";
 }
 
-// Clear invoice
-function clearInvoice() {
-    if (confirm('Are you sure you want to clear the entire invoice? This action cannot be undone.')) {
-        document.getElementById('invoice-num').value = '';
+// Clear estimation
+function clearEstimation() {
+    if (confirm('Are you sure you want to clear the entire estimation? This action cannot be undone.')) {
         document.getElementById('invoice-date').value = new Date().toISOString().split('T')[0];
         document.getElementById('client-name').value = '';
         document.getElementById('client-address').value = '';
@@ -228,15 +226,15 @@ function clearInvoice() {
         document.getElementById('items-body').innerHTML = '';
         invoiceData = { items: [], client: {}, totals: { subtotal: 0, discount: 0, tax: 0, grandTotal: 0, advance: 0, balance: 0 } };
         itemCounter = 0;
-        generateInvoiceNumber();
+        generateEstimationNumber();
         addItem();
         updateSummary();
         updateAddButtonVisibility();
     }
 }
 
-// Preview invoice
-function previewInvoice() {
+// Preview estimation
+function previewEstimation() {
     const modal = document.getElementById('preview-modal');
     const previewContent = document.getElementById('preview-content');
     previewContent.innerHTML = createPreviewHTML();
@@ -245,7 +243,6 @@ function previewInvoice() {
 
 // Create preview HTML
 function createPreviewHTML() {
-    const invoiceNum = document.getElementById('invoice-num').value;
     const invoiceDate = document.getElementById('invoice-date').value;
     const clientName = document.getElementById('client-name').value;
     const clientAddress = document.getElementById('client-address').value;
@@ -287,9 +284,8 @@ function createPreviewHTML() {
             <div class="preview-header-line"></div>
             
             <div class="preview-invoice-header">
-                <h2>INVOICE</h2>
+                <h2>ESTIMATION</h2>
                 <div class="preview-invoice-details">
-                    <p><strong>Invoice #:</strong> ${invoiceNum}</p>
                     <p><strong>Date:</strong> ${new Date(invoiceDate).toLocaleDateString('en-IN')}</p>
                 </div>
             </div>
@@ -438,9 +434,9 @@ function downloadPDF() {
         tempContainer.style.lineHeight = '1.4';
         tempContainer.style.color = '#333';
 
-        // Generate the invoice HTML for PDF
-        const invoiceHTML = generateInvoiceHTML();
-        tempContainer.innerHTML = invoiceHTML;
+        // Generate the estimation HTML for PDF
+        const estimationHTML = generateEstimationHTML();
+        tempContainer.innerHTML = estimationHTML;
 
         // Add to body temporarily
         document.body.appendChild(tempContainer);
@@ -470,10 +466,11 @@ function downloadPDF() {
                     doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
 
                     // Generate filename
-                    const invoiceNum = document.getElementById('invoice-num').value || 'INVOICE';
                     const clientName = document.getElementById('client-name').value || 'Client';
                     const cleanClientName = clientName.replace(/[^a-zA-Z0-9]/g, '_');
-                    const filename = `${invoiceNum}_${cleanClientName}.pdf`;
+                    const invoiceDate = document.getElementById('invoice-date').value;
+                    const dateStr = invoiceDate ? invoiceDate.replace(/-/g, '') : 'Date';
+                    const filename = `Estimation_${cleanClientName}_${dateStr}.pdf`;
 
                     // Save PDF
                     doc.save(filename);
@@ -500,9 +497,8 @@ function downloadPDF() {
     }
 }
 
-// Generate invoice HTML for PDF
-function generateInvoiceHTML() {
-    const invoiceNum = document.getElementById('invoice-num').value;
+// Generate estimation HTML for PDF
+function generateEstimationHTML() {
     const invoiceDate = document.getElementById('invoice-date').value;
     const clientName = document.getElementById('client-name').value;
     const clientAddress = document.getElementById('client-address').value;
@@ -555,7 +551,6 @@ function generateInvoiceHTML() {
                     ${clientEmail ? `<p style="margin: 5px 0; font-size: 14px;">Email: ${clientEmail}</p>` : ''}
                 </div>
                 <div>
-                    <p style="margin: 5px 0; font-size: 12px;"><strong>Invoice #:</strong> ${invoiceNum}</p>
                     <p style="margin: 5px 0; font-size: 12px;"><strong>Date:</strong> ${new Date(invoiceDate).toLocaleDateString('en-IN')}</p>
                 </div>
             </div>
@@ -660,15 +655,13 @@ function generateTextPDF(tempContainer, downloadBtn, originalText) {
         doc.setFontSize(12);
         doc.text('smartsteel.f@gmail.com', 150, 20);
 
-        // Invoice title
+        // Estimation title
         doc.setFontSize(20);
-        doc.text('INVOICE', 20, 40);
+        doc.text('ESTIMATION', 20, 40);
 
-        // Invoice details
-        const invoiceNum = document.getElementById('invoice-num').value || 'INVOICE';
+        // Estimation details
         const invoiceDate = document.getElementById('invoice-date').value;
         doc.setFontSize(12);
-        doc.text(`Invoice #: ${invoiceNum}`, 150, 35);
         doc.text(`Date: ${new Date(invoiceDate).toLocaleDateString('en-IN')}`, 150, 42);
 
         // Client info
@@ -742,7 +735,9 @@ function generateTextPDF(tempContainer, downloadBtn, originalText) {
 
         // Generate filename and save
         const cleanClientName = (clientName || 'Client').replace(/[^a-zA-Z0-9]/g, '_');
-        const filename = `${invoiceNum}_${cleanClientName}.pdf`;
+        const pdfDate = document.getElementById('invoice-date').value;
+        const dateStr = pdfDate ? pdfDate.replace(/-/g, '') : 'Date';
+        const filename = `Estimation_${cleanClientName}_${dateStr}.pdf`;
         doc.save(filename);
 
         // Clean up
@@ -771,11 +766,11 @@ window.onclick = function (event) {
 document.addEventListener('keydown', function (event) {
     if (event.ctrlKey && event.key === 's') {
         event.preventDefault();
-        previewInvoice();
+        previewEstimation();
     }
     if (event.ctrlKey && event.key === 'p') {
         event.preventDefault();
-        previewInvoice();
+        previewEstimation();
     }
     if (event.key === 'Escape') {
         closePreview();

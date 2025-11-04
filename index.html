@@ -33,12 +33,8 @@
     <!-- Main Content -->
     <main class="invoice-container">
       <div class="invoice-header">
-        <h2>INVOICE</h2>
+        <h2>ESTIMATION</h2>
         <div class="invoice-details">
-          <div class="invoice-number">
-            <label for="invoice-num">Invoice #:</label>
-            <input type="text" id="invoice-num" placeholder="INV-001">
-          </div>
           <div class="invoice-date">
             <label for="invoice-date">Date:</label>
             <input type="date" id="invoice-date">
@@ -135,10 +131,10 @@
 
       <!-- Action Buttons -->
       <div class="action-buttons">
-        <button type="button" class="btn btn-secondary" onclick="clearInvoice()">
+        <button type="button" class="btn btn-secondary" onclick="clearEstimation()">
           <i class="fas fa-trash"></i> Clear
         </button>
-        <button type="button" class="btn btn-success" onclick="previewInvoice()">
+        <button type="button" class="btn btn-success" onclick="previewEstimation()">
           <i class="fas fa-eye"></i> Preview
         </button>
         <button type="button" class="btn btn-primary" onclick="downloadPDF()">
@@ -173,7 +169,7 @@
   <div id="preview-modal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Invoice Preview</h3>
+        <h3>Estimation Preview</h3>
         <span class="close" onclick="closePreview()">&times;</span>
       </div>
       <div class="modal-body" id="preview-content">
